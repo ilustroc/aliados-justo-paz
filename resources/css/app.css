@@ -1,0 +1,144 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    @apply bg-[#F5F5F3] text-[#2B2B2B];
+  }
+}
+
+@layer components {
+  
+  html {
+    scrollbar-gutter: stable;
+  }
+  
+  .jp-shell {
+    @apply min-h-screen bg-[#F5F5F3];
+  }
+
+  .jp-sidebar {
+    @apply fixed left-0 top-0 z-30 h-screen border-r border-slate-100 bg-white shadow-sm;
+    width: 280px;
+    min-width: 280px;
+  }
+
+  .jp-main {
+    @apply bg-[#F5F5F3];
+  }
+
+  .jp-container {
+    @apply px-6 py-8 lg:px-8;
+  }
+
+  .jp-card {
+    @apply rounded-2xl border border-slate-100 bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)];
+  }
+
+  .jp-card-soft {
+    @apply rounded-xl border border-[#E9EBE2] bg-[#F1F3EB] transition-colors hover:bg-[#EAECE3];
+  }
+
+  .jp-input {
+    @apply w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-[#3F7F46] focus:ring-2 focus:ring-[#3F7F46]/20;
+  }
+
+  .jp-select {
+    @apply w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-[#3F7F46] focus:ring-2 focus:ring-[#3F7F46]/20;
+  }
+
+  .jp-btn {
+    @apply inline-flex items-center justify-center rounded-xl px-4 py-2.5 text-sm font-semibold transition;
+  }
+
+  .jp-btn-primary {
+    @apply inline-flex items-center justify-center rounded-xl px-4 py-2.5 text-sm font-semibold transition bg-[#3F7F46] text-white hover:bg-[#2F5E35];
+  }
+
+  .jp-btn-secondary {
+    @apply inline-flex items-center justify-center rounded-xl px-4 py-2.5 text-sm font-semibold transition border border-slate-300 bg-white text-slate-700 hover:bg-slate-50;
+  }
+
+  .jp-badge-success {
+    @apply inline-flex rounded-full bg-[#dff3e4] px-3 py-1 text-xs font-semibold text-[#2f8f46];
+  }
+
+  .jp-badge-muted {
+    @apply inline-flex rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-500;
+  }
+
+  .jp-badge-warn {
+    @apply inline-flex rounded-full bg-[#f8efc8] px-3 py-1 text-xs font-semibold text-[#b98b14];
+  }
+
+  .jp-nav-link {
+    @apply flex items-center gap-3 rounded-xl px-4 py-3 text-[15px] font-medium text-slate-500 transition-all hover:bg-slate-50;
+  }
+
+  .jp-nav-link-active {
+    @apply flex items-center gap-3 rounded-xl px-4 py-3 text-[15px] font-bold bg-[#4A7c44] text-white shadow-md shadow-[#4A7c44]/20;
+  }
+  
+  .jp-table-wrap {
+    @apply overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm;
+  }
+
+  .jp-table {
+    @apply min-w-full text-sm;
+  }
+
+  .jp-table thead {
+    @apply bg-[#eef2eb] text-slate-600;
+  }
+
+  .jp-table th {
+    @apply px-6 py-4 text-left font-semibold;
+  }
+
+  .jp-table td {
+    @apply border-t border-slate-100 px-6 py-4 align-top text-slate-700;
+  }
+
+  .jp-modal-backdrop {
+    @apply fixed inset-0 z-40 bg-black/45;
+  }
+
+  .jp-modal-panel {
+    @apply fixed left-1/2 top-1/2 z-50 w-[92%] max-w-2xl -translate-x-1/2 -translate-y-1/2 rounded-3xl bg-white p-6 shadow-2xl;
+  }
+
+  .badge-en-proceso {
+    @apply inline-flex rounded-full bg-[#FFFBEB] px-3 py-1 text-xs font-bold text-[#92400E] border border-[#FEF3C7];
+  }
+  
+  .badge-cerrada {
+    @apply inline-flex rounded-full bg-[#F0FDF4] px-3 py-1 text-xs font-bold text-[#166534] border border-[#DCFCE7];
+  }
+
+  .search-container {
+    @apply relative w-full mb-6;
+  }
+
+  .search-input-alt {
+    @apply w-full rounded-2xl border border-slate-200 bg-white py-4 pl-12 pr-4 text-sm outline-none transition-all focus:border-[#4A7c44] focus:ring-4 focus:ring-[#4A7c44]/5;
+  }
+
+  .table-nowrap {
+    @apply whitespace-nowrap;
+  }
+
+  .whitespace-nowrap {
+    white-space: nowrap;
+  }
+  
+  .pagination-btn {
+    @apply px-4 py-2 text-sm font-medium border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 transition-colors;
+  }
+
+  .pagination-container nav svg {
+    @apply w-5 h-5;
+  }
+  
+  .pagination-container nav div:first-child {
+    @apply hidden;
+  }
+}
