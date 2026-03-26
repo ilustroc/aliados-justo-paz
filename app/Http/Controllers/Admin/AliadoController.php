@@ -23,7 +23,9 @@ class AliadoController extends Controller
             ->paginate(10)
             ->withQueryString();
 
-        return view('admin.aliados.index', compact('aliados', 'q', 'tramo', 'estado'));
+        $aliados_list = Aliado::where('estado', 'activo')->orderBy('nombre')->get();
+
+        return view('admin.aliados.index', compact('aliados', 'q', 'tramo', 'estado', 'aliados_list'));
     }
 
     public function store(Request $request, AliadoNivelService $nivelService)
@@ -44,5 +46,20 @@ class AliadoController extends Controller
         $nivelService->refresh($aliado);
 
         return redirect()->route('admin.aliados.index')->with('ok', 'Aliado creado correctamente.');
+    }
+
+    public function update(Request $request, Aliado $aliado, AliadoNivelService $nivelService)
+    {
+        $data = $request->validate([
+            'nombre' => ['required', 'string', 'max:120'],
+            'empresa' => ['nullable', 'string', 'max:150'],
+            'email' => ['required', 'email', 'max:150', 'unique:aliados,email,' . $aliado->id],
+            'estado' => ['required', 'in:activo,inactivo'],
+        ]);
+
+        $aliado->update($data);
+        $nivelService->refresh($aliado);
+
+        return back()->with('ok', 'Aliado actualizado correctamente.');
     }
 }

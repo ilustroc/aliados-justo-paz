@@ -30,13 +30,3 @@
         </form>
     </div>
 </div>
-
-<div id="modalConciliacion" class="hidden" data-modal>
-    <div class="jp-modal-backdrop" data-modal-close></div>
-    <div class="jp-modal-panel max-w-xl p-8">
-        <div class="mb-6 text-left">
-            <h2 class="text-2xl font-bold text-[#2B2B2B]">Nueva conciliación</h2>
-            <p class="text-sm text-slate-500">Registra un nuevo caso para un aliado activo.</p>
-        </div>
-    </div>
-</div>

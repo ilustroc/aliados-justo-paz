@@ -2,6 +2,8 @@
 
 @section('title', 'Aliados')
 
+@vite(['resources/js/aliados.js'])
+
 @section('content')
 <div class="space-y-6">
     <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
@@ -54,53 +56,35 @@
                     <th class="text-[11px] font-bold uppercase text-slate-500 py-3 text-center">Casos</th>
                     <th class="text-[11px] font-bold uppercase text-slate-500 py-3">Tarifa</th>
                     <th class="text-[11px] font-bold uppercase text-slate-500 py-3">Tramo</th>
-                    <th class="text-[11px] font-bold uppercase text-slate-500 py-3">Estado</th>
+                    <th class="text-[11px] font-bold uppercase text-slate-500 py-3 text-center">Estado</th>
                     <th class="w-10"></th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-slate-50">
                 @forelse($aliados as $aliado)
                     <tr class="hover:bg-slate-50/50 transition-colors border-b border-slate-50 last:border-0">
-                        <td class="py-3 px-6 font-semibold text-slate-700">
-                            {{ $aliado->nombre }}
-                        </td>
-
-                        <td class="py-3 px-6 text-slate-500 text-sm">
-                            {{ $aliado->empresa ?: '-' }}
-                        </td>
-
-                        <td class="py-3 px-6 text-slate-400 text-sm whitespace-nowrap">
-                            {{ $aliado->email }}
-                        </td>
-
+                        <td class="py-3 px-6 font-semibold text-slate-900">{{ $aliado->nombre }}</td>
+                        <td class="py-3 px-6 text-slate-900 text-sm">{{ $aliado->empresa ?: '-' }}</td>
+                        <td class="py-3 px-6 text-slate-900 text-sm whitespace-nowrap">{{ $aliado->email }}</td>
                         <td class="py-3 px-6 text-center">
-                            <span class="text-base font-semibold text-[#4A7c44]">
-                                {{ $aliado->conciliaciones_acumuladas }}
-                            </span>
+                            <span class="text-base font-semibold text-[#4A7c44]">{{ $aliado->conciliaciones_acumuladas }}</span>
                         </td>
-
-                        <td class="py-3 px-6 text-slate-700 text-sm whitespace-nowrap font-semibold">
+                        <td class="py-3 px-6 text-slate-900 text-sm whitespace-nowrap font-semibold">
                             S/ {{ number_format($aliado->tarifa_actual, 0) }}
                         </td>
-
-                        <td class="py-3 px-6 text-slate-600 text-sm font-medium">
-                            {{ $aliado->tramo_actual }}
-                        </td>
-
+                        <td class="py-3 px-6 text-slate-900 text-sm font-medium">{{ $aliado->tramo_actual }}</td>
                         <td class="py-3 px-6 text-center whitespace-nowrap">
                             @if($aliado->estado === 'activo')
-                                <span class="inline-block bg-[#F0FDF4] text-[#166534] text-[11px] font-bold px-3 py-1 rounded-full lowercase">
-                                    activo
-                                </span>
+                                <span class="inline-block bg-[#F0FDF4] text-[#166534] text-[11px] font-bold px-3 py-1 rounded-full lowercase">activo</span>
                             @else
-                                <span class="inline-block bg-slate-100 text-slate-500 text-[11px] font-bold px-3 py-1 rounded-full lowercase">
-                                    inactivo
-                                </span>
+                                <span class="inline-block bg-slate-100 text-slate-500 text-[11px] font-bold px-3 py-1 rounded-full lowercase">inactivo</span>
                             @endif
                         </td>
-
                         <td class="py-3 px-6 text-right whitespace-nowrap">
-                            <button class="text-slate-300 hover:text-slate-500 transition-colors">
+                            <button type="button" 
+                                class="text-slate-300 hover:text-slate-500 transition-colors btn-edit-aliado"
+                                data-aliado="{{ json_encode($aliado) }}"
+                                data-action="{{ route('admin.aliados.update', $aliado) }}">
                                 <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                                 </svg>
@@ -124,6 +108,7 @@
     </div>
 </div>
 
-@include('admin.modals')
+@include('admin.modals.create-aliado')
+@include('admin.modals.edit-aliado')
 
 @endsection

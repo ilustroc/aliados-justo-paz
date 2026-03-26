@@ -1,0 +1,23 @@
+/* resources/css/auth.css */
+@import "tailwindcss";
+
+.auth-container {
+    @apply min-h-screen bg-[#F5F5F3] flex items-center justify-center px-6 antialiased;
+}
+
+.auth-card {
+    @apply grid w-full max-w-5xl gap-0 rounded-[2rem] bg-white shadow-2xl shadow-slate-200/50 overflow-hidden lg:grid-cols-2;
+}
+
+.auth-banner {
+    @apply hidden lg:flex flex-col justify-between bg-[#4A7c44] p-12 text-white;
+}
+
+.auth-form-section {
+    @apply flex items-center p-8 lg:p-16;
+}
+
+.jp-input-auth {
+    @apply w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-4 text-sm outline-none transition-all 
+    focus:border-[#4A7c44] focus:ring-4 focus:ring-[#4A7c44]/5 focus:bg-white;
+}

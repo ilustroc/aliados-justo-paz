@@ -40,12 +40,12 @@ class ConciliacionController extends Controller
         DB::transaction(function () use ($data, $nivelService) {
             $aliado = Aliado::findOrFail($data['aliado_id']);
 
-            $proximo = $nivelService->dataByCount($aliado->conciliaciones_acumuladas + 1);
+            $configuracionSiguiente = $nivelService->dataByCount($aliado->conciliaciones_acumuladas + 1);
 
             $conciliacion = Conciliacion::create([
                 ...$data,
                 'codigo' => 'TEMP',
-                'tarifa_aplicada' => $proximo['tarifa'],
+                'tarifa_aplicada' => $configuracionSiguiente['tarifa'],
                 'fecha_actualizacion' => now(),
             ]);
 
@@ -57,5 +57,19 @@ class ConciliacionController extends Controller
         });
 
         return redirect()->route('admin.conciliaciones.index')->with('ok', 'Conciliación registrada correctamente.');
+    }
+
+    public function update(Request $request, Conciliacion $conciliacion)
+    {
+        $data = $request->validate([
+            'nombre_caso' => ['required', 'string', 'max:180'],
+            'tipo_caso' => ['required', 'in:Deuda,Incumplimiento,Contractual,Otro'],
+            'fecha_registro' => ['required', 'date'],
+            'estado' => ['required', 'in:En proceso,Cerrada,No concretada'],
+        ]);
+
+        $conciliacion->update($data);
+
+        return redirect()->route('admin.conciliaciones.index')->with('ok', 'Conciliación actualizada correctamente.');
     }
 }
