@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Access | Justo Paz</title>
+    <title>Nueva contraseña | Justo Paz</title>
     <link rel="icon" type="image/png" href="{{ asset('img/logotipo.png') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,7 +13,6 @@
 <body class="auth-page-wrapper">
 
     <div class="auth-split-card">
-        {{-- PANEL IZQUIERDO --}}
         <div class="auth-form-panel">
             <div class="w-full max-w-sm">
                 <div class="mb-8">
@@ -21,7 +20,7 @@
                 </div>
 
                 <div class="mb-4">
-                    <h2 class="auth-title mt-4">Iniciar Sesión</h2>
+                    <h2 class="auth-title mt-4">Crear nueva contraseña</h2>
                 </div>
 
                 @if ($errors->any())
@@ -30,70 +29,66 @@
                     </div>
                 @endif
 
-                <form action="{{ route('login') }}" method="POST" class="space-y-3">
+                <form action="{{ route('password.update') }}" method="POST" class="space-y-4">
                     @csrf
 
+                    <input type="hidden" name="token" value="{{ $token }}">
+
                     <div class="space-y-2">
-                        <label class="auth-label">Email</label>
+                        <label class="auth-label">Correo electrónico</label>
                         <input
                             type="email"
                             name="email"
-                            value="{{ old('email') }}"
+                            value="{{ old('email', $email) }}"
                             class="auth-input-v3"
-                            placeholder="admin@justopaz.com"
                             required
-                            autofocus
-                            autocomplete="username"
-                            spellcheck="false"
                         >
                     </div>
 
                     <div class="space-y-2">
-                        <label class="auth-label">Contraseña</label>
+                        <label class="auth-label">Nueva contraseña</label>
                         <input
                             type="password"
                             name="password"
                             class="auth-input-v3"
                             placeholder="••••••••"
                             required
-                            autocomplete="current-password"
                         >
                     </div>
 
-                    <div class="flex items-center justify-between px-1 pt-1">
-                        <a href="{{ route('password.request') }}" class="auth-link">
-                            ¿Olvidaste tu contraseña?
-                        </a>
+                    <div class="space-y-2">
+                        <label class="auth-label">Confirmar contraseña</label>
+                        <input
+                            type="password"
+                            name="password_confirmation"
+                            class="auth-input-v3"
+                            placeholder="••••••••"
+                            required
+                        >
                     </div>
 
                     <button type="submit" class="btn-auth-v3">
-                        Entrar al Panel
+                        Actualizar contraseña
                     </button>
-
-                    <div class="auth-footnote">
-                        Acceso interno y seguro para personal autorizado.
-                    </div>
                 </form>
             </div>
         </div>
 
-        {{-- PANEL DERECHO --}}
         <div class="auth-visual-panel">
             <div class="visual-grid"></div>
 
             <div class="relative z-10 px-10 py-12 text-center">
                 <img
                     src="{{ asset('svg/login-visual.svg') }}"
-                    alt="Gestión Justo Paz"
-                    class="mt-6 w-full max-w-[280px] xl:max-w-[320px] mx-auto drop-shadow-[0_18px_35px_rgba(36,130,50,0.16)]"
+                    alt="Nueva contraseña"
+                    class="mt-6 w-full max-w-[280px] xl:max-w-[320px] mx-auto"
                 >
-
                 <div class="mt-8">
                     <h3 class="text-3xl font-bold tracking-tight text-[#248232]">
-                        Gestión Inteligente
+                        Acceso Restaurado
                     </h3>
                     <p class="mx-auto mt-3 max-w-[300px] text-sm leading-relaxed text-[#2d3a3a]/80">
-                        Control centralizado de aliados, conciliaciones y métricas del programa.
+                        Define una nueva contraseña segura para continuar.
                     </p>
                 </div>
             </div>
