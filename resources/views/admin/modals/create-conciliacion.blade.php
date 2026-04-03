@@ -16,14 +16,19 @@
             <form method="POST" action="{{ route('admin.conciliaciones.store') }}" class="space-y-5">
                 @csrf
 
-                {{-- ALIADO --}}
+                @if(($aliados ?? collect())->isEmpty())
+                    <div class="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-700">
+                        No hay aliados disponibles para registrar una conciliación.
+                    </div>
+                @endif
+
                 <div>
                     <label class="mb-1.5 block text-xs font-bold uppercase tracking-wide text-slate-500">
                         Aliado *
                     </label>
 
                     <div class="relative" data-select>
-                        <input type="hidden" name="aliado_id" value="">
+                        <input type="hidden" name="aliado_id" value="" required>
 
                         <button
                             type="button"
@@ -66,7 +71,6 @@
                     </div>
                 </div>
 
-                {{-- CODIGO --}}
                 <div>
                     <label class="mb-1.5 block text-xs font-bold uppercase tracking-wide text-slate-500">Código</label>
                     <input
@@ -77,7 +81,6 @@
                     >
                 </div>
 
-                {{-- NOMBRE CASO --}}
                 <div>
                     <label class="mb-1.5 block text-xs font-bold uppercase tracking-wide text-slate-500">
                         Nombre del caso *
@@ -92,14 +95,13 @@
                 </div>
 
                 <div class="grid grid-cols-2 gap-4">
-                    {{-- TIPO DE CASO --}}
                     <div>
                         <label class="mb-1.5 block text-xs font-bold uppercase tracking-wide text-slate-500">
-                            Tipo de caso
+                            Tipo de caso *
                         </label>
 
                         <div class="relative" data-select>
-                            <input type="hidden" name="tipo_caso" value="Deuda">
+                            <input type="hidden" name="tipo_caso" value="Deuda" required>
 
                             <button
                                 type="button"
@@ -132,10 +134,9 @@
                         </div>
                     </div>
 
-                    {{-- FECHA --}}
                     <div>
                         <label class="mb-1.5 block text-xs font-bold uppercase tracking-wide text-slate-500">
-                            Fecha
+                            Fecha *
                         </label>
                         <input
                             type="date"
@@ -147,14 +148,13 @@
                     </div>
                 </div>
 
-                {{-- ESTADO --}}
                 <div>
                     <label class="mb-1.5 block text-xs font-bold uppercase tracking-wide text-slate-500">
-                        Estado
+                        Estado *
                     </label>
 
                     <div class="relative" data-select>
-                        <input type="hidden" name="estado" value="En proceso">
+                        <input type="hidden" name="estado" value="En proceso" required>
 
                         <button
                             type="button"
@@ -198,7 +198,8 @@
 
                     <button
                         type="submit"
-                        class="rounded-xl bg-[#4A7c44] px-8 py-2.5 text-sm font-bold text-white shadow-lg shadow-[#4A7c44]/20 transition-all hover:bg-[#3d6638]"
+                        class="rounded-xl bg-[#4A7c44] px-8 py-2.5 text-sm font-bold text-white shadow-lg shadow-[#4A7c44]/20 transition-all hover:bg-[#3d6638] disabled:cursor-not-allowed disabled:opacity-50"
+                        {{ ($aliados ?? collect())->isEmpty() ? 'disabled' : '' }}
                     >
                         Guardar
                     </button>

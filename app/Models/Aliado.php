@@ -4,12 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Aliado extends Model
 {
     protected $table = 'aliados';
-    
+
     protected $fillable = [
+        'user_id',
         'nombre',
         'empresa',
         'tipo_aliado',
@@ -33,6 +35,11 @@ class Aliado extends Model
         'tarifa_actual' => 'decimal:2',
     ];
 
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function conciliaciones(): HasMany
     {
         return $this->hasMany(Conciliacion::class);
@@ -47,7 +54,8 @@ class Aliado extends Model
         return $query->where(function ($q) use ($value) {
             $q->where('nombre', 'like', "%{$value}%")
               ->orWhere('empresa', 'like', "%{$value}%")
-              ->orWhere('email', 'like', "%{$value}%");
+              ->orWhere('email', 'like', "%{$value}%")
+              ->orWhere('telefono', 'like', "%{$value}%");
         });
     }
 }

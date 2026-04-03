@@ -2,9 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Aliado;
-use App\Models\Conciliacion;
-use App\Services\AliadoNivelService;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,6 +10,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             UserSeeder::class,
+            AliadosyCasosSeeder::class,
         ]);
     }
 }

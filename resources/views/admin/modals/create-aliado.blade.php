@@ -5,24 +5,56 @@
             <h2 class="text-2xl font-bold text-[#2B2B2B]">Nuevo aliado</h2>
             <p class="text-sm text-slate-500">Registra un nuevo colaborador estratégico para el programa 2026.</p>
         </div>
+
         <form method="POST" action="{{ route('admin.aliados.store') }}" class="grid grid-cols-1 md:grid-cols-2 gap-5">
             @csrf
+
             <div class="md:col-span-2">
                 <label class="mb-1.5 block text-xs font-bold uppercase text-slate-500">Nombre Completo *</label>
                 <input type="text" name="nombre" class="jp-input" placeholder="Ej: Alejandra García" required>
             </div>
+
             <div class="md:col-span-2">
                 <label class="mb-1.5 block text-xs font-bold uppercase text-slate-500">Empresa / Estudio Jurídico</label>
                 <input type="text" name="empresa" class="jp-input" placeholder="Ej: Estudios Mendoza & Asociados">
             </div>
+
             <div>
                 <label class="mb-1.5 block text-xs font-bold uppercase text-slate-500">Email de acceso *</label>
                 <input type="email" name="email" class="jp-input" placeholder="correo@estudio.com" required>
             </div>
+
             <div>
                 <label class="mb-1.5 block text-xs font-bold uppercase text-slate-500">Teléfono</label>
                 <input type="text" name="telefono" class="jp-input" placeholder="+51 999...">
             </div>
+
+            <div>
+                <label class="mb-1.5 block text-xs font-bold uppercase text-slate-500">Estado *</label>
+                <select name="estado" class="jp-select" required>
+                    <option value="activo" selected>Activo</option>
+                    <option value="inactivo">Inactivo</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="mb-1.5 block text-xs font-bold uppercase text-slate-500">Rol *</label>
+                <select name="role" class="jp-select" required>
+                    <option value="usuario" selected>Usuario</option>
+                    <option value="administrador">Administrador</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="mb-1.5 block text-xs font-bold uppercase text-slate-500">Contraseña *</label>
+                <input type="password" name="password" class="jp-input" placeholder="Mínimo 8 caracteres" required>
+            </div>
+
+            <div>
+                <label class="mb-1.5 block text-xs font-bold uppercase text-slate-500">Confirmar contraseña *</label>
+                <input type="password" name="password_confirmation" class="jp-input" placeholder="Repite la contraseña" required>
+            </div>
+
             <div class="md:col-span-2 flex justify-between gap-3 mt-4">
                 <button type="button" class="jp-btn-secondary px-8" data-modal-close>Cancelar</button>
                 <button type="submit" class="jp-btn-primary px-10">Guardar Aliado</button>

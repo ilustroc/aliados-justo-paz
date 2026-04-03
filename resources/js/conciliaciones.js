@@ -1,30 +1,49 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const rows = document.querySelectorAll('.row-conciliacion');
     const editModal = document.getElementById('modalEditConciliacion');
     const editForm = document.getElementById('formEditConciliacion');
     const selects = document.querySelectorAll('[data-select]');
 
-    rows.forEach(row => {
-        row.addEventListener('click', function() {
-            const item = JSON.parse(this.dataset.item);
-            const aliadoNombre = this.dataset.aliado;
-            const action = this.dataset.action;
+    if (rows.length > 0 && editModal && editForm) {
+        rows.forEach(row => {
+            row.addEventListener('click', function () {
+                const action = this.dataset.action;
 
-            editForm.action = action;
-            document.getElementById('edit_aliado_nombre').value = aliadoNombre;
-            document.getElementById('edit_codigo').value = item.codigo;
-            document.getElementById('edit_nombre_caso').value = item.nombre_caso;
-            document.getElementById('edit_tipo_caso').value = item.tipo_caso;
-            document.getElementById('edit_estado').value = item.estado;
-            
-            if(item.fecha_registro) {
-                const date = new Date(item.fecha_registro);
-                document.getElementById('edit_fecha_registro').value = date.toISOString().split('T')[0];
-            }
+                if (!action) {
+                    return;
+                }
 
-            editModal.classList.remove('hidden');
+                let item = {};
+
+                try {
+                    item = JSON.parse(this.dataset.item || '{}');
+                } catch (error) {
+                    console.error('No se pudo leer data-item de conciliación:', error);
+                    return;
+                }
+
+                const aliadoNombre = this.dataset.aliado ?? '';
+
+                const aliadoInput = document.getElementById('edit_aliado_nombre');
+                const codigoInput = document.getElementById('edit_codigo');
+                const nombreCasoInput = document.getElementById('edit_nombre_caso');
+                const tipoCasoInput = document.getElementById('edit_tipo_caso');
+                const estadoInput = document.getElementById('edit_estado');
+                const fechaRegistroInput = document.getElementById('edit_fecha_registro');
+
+                editForm.action = action;
+
+                if (aliadoInput) aliadoInput.value = aliadoNombre;
+                if (codigoInput) codigoInput.value = item.codigo ?? '';
+                if (nombreCasoInput) nombreCasoInput.value = item.nombre_caso ?? '';
+                if (tipoCasoInput) tipoCasoInput.value = item.tipo_caso ?? '';
+                if (estadoInput) estadoInput.value = item.estado ?? '';
+                if (fechaRegistroInput) fechaRegistroInput.value = item.fecha_registro ?? '';
+
+                editModal.classList.remove('hidden');
+            });
         });
-    });
+    }
 
     selects.forEach((select) => {
         const trigger = select.querySelector('[data-select-trigger]');
@@ -46,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
 
-            menu.classList.toggle('hidden');
+            menu?.classList.toggle('hidden');
             icon?.classList.toggle('rotate-180');
         });
 
@@ -55,8 +74,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 const value = option.dataset.value ?? '';
                 const text = option.dataset.label ?? '';
 
-                input.value = value;
-                label.textContent = text;
+                if (input) input.value = value;
+                if (label) label.textContent = text;
 
                 options.forEach((item) => {
                     item.querySelector('[data-check]')?.classList.add('hidden');
@@ -64,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 option.querySelector('[data-check]')?.classList.remove('hidden');
 
-                menu.classList.add('hidden');
+                menu?.classList.add('hidden');
                 icon?.classList.remove('rotate-180');
             });
         });

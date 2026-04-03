@@ -1,29 +1,62 @@
 @import "tailwindcss";
 
 @layer base {
+  html {
+    scrollbar-gutter: stable;
+  }
+
   body {
     @apply bg-[#F5F5F3] text-[#2B2B2B];
   }
 }
 
 @layer components {
-  
-  html {
-    scrollbar-gutter: stable;
-  }
-  
   .jp-shell {
     @apply min-h-screen bg-[#F5F5F3];
   }
 
   .jp-sidebar {
-    @apply fixed left-0 top-0 z-30 h-screen border-r border-slate-100 bg-white shadow-sm;
-    width: 280px;
-    min-width: 280px;
+    @apply fixed left-0 top-0 z-30 h-screen w-[248px] min-w-[248px] border-r border-[#E7EBE3] bg-white/95 backdrop-blur-sm shadow-[0_10px_30px_rgba(15,23,42,0.04)];
+  }
+
+  .jp-sidebar-top {
+    @apply border-b border-[#EEF1EA] px-5 py-5;
+  }
+
+  .jp-brand-wrap {
+    @apply flex items-center gap-3;
+  }
+
+  .jp-brand-logo {
+    @apply h-11 w-auto object-contain;
+  }
+
+  .jp-brand-title {
+    @apply text-sm font-bold tracking-tight text-slate-800;
+  }
+
+  .jp-brand-subtitle {
+    @apply mt-0.5 text-[12px] text-slate-400;
+  }
+
+  .jp-sidebar-nav {
+    @apply flex-1 space-y-1.5 px-4 py-5;
+  }
+
+  .jp-sidebar-footer {
+    @apply border-t border-[#EEF1EA] px-4 py-4;
+  }
+
+  .jp-user-card {
+    @apply flex items-start gap-3 rounded-2xl border border-[#E8EEE5] bg-[#F7FAF6] p-3;
+  }
+
+  .jp-logout-btn {
+    @apply flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-600 transition hover:bg-slate-50 hover:text-slate-800;
   }
 
   .jp-main {
-    @apply bg-[#F5F5F3];
+    @apply min-h-screen flex-1 bg-[#F5F5F3];
   }
 
   .jp-container {
@@ -51,11 +84,17 @@
   }
 
   .jp-btn-primary {
-    @apply inline-flex items-center justify-center rounded-xl px-4 py-2.5 text-sm font-semibold transition bg-[#3F7F46] text-white hover:bg-[#2F5E35];
+    @apply inline-flex items-center justify-center rounded-xl px-4 py-2.5 text-sm font-semibold text-white transition;
+    background: linear-gradient(135deg, #4A7C44 0%, #3F7F46 100%);
+    box-shadow: 0 10px 24px rgba(74, 124, 68, 0.18);
+  }
+
+  .jp-btn-primary:hover {
+    background: linear-gradient(135deg, #3f6d3a 0%, #35693b 100%);
   }
 
   .jp-btn-secondary {
-    @apply inline-flex items-center justify-center rounded-xl px-4 py-2.5 text-sm font-semibold transition border border-slate-300 bg-white text-slate-700 hover:bg-slate-50;
+    @apply inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50;
   }
 
   .jp-badge-success {
@@ -71,13 +110,15 @@
   }
 
   .jp-nav-link {
-    @apply flex items-center gap-3 rounded-xl px-4 py-3 text-[15px] font-medium text-slate-500 transition-all hover:bg-slate-50;
+    @apply flex items-center gap-3 rounded-2xl px-4 py-3 text-[15px] font-medium text-slate-500 transition-all hover:bg-[#F5F8F4] hover:text-slate-700;
   }
 
   .jp-nav-link-active {
-    @apply flex items-center gap-3 rounded-xl px-4 py-3 text-[15px] font-bold bg-[#4A7c44] text-white shadow-md shadow-[#4A7c44]/20;
+    @apply flex items-center gap-3 rounded-2xl px-4 py-3 text-[15px] font-semibold text-white transition-all;
+    background: linear-gradient(135deg, #4A7C44 0%, #5A8F50 100%);
+    box-shadow: 0 12px 26px rgba(74, 124, 68, 0.22);
   }
-  
+
   .jp-table-wrap {
     @apply overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm;
   }
@@ -107,15 +148,15 @@
   }
 
   .badge-en-proceso {
-    @apply inline-flex rounded-full bg-[#FFFBEB] px-3 py-1 text-xs font-bold text-[#92400E] border border-[#FEF3C7];
+    @apply inline-flex rounded-full border border-[#FEF3C7] bg-[#FFFBEB] px-3 py-1 text-xs font-bold text-[#92400E];
   }
-  
+
   .badge-cerrada {
-    @apply inline-flex rounded-full bg-[#F0FDF4] px-3 py-1 text-xs font-bold text-[#166534] border border-[#DCFCE7];
+    @apply inline-flex rounded-full border border-[#DCFCE7] bg-[#F0FDF4] px-3 py-1 text-xs font-bold text-[#166534];
   }
 
   .search-container {
-    @apply relative w-full mb-6;
+    @apply relative mb-6 w-full;
   }
 
   .search-input-alt {
@@ -129,15 +170,15 @@
   .whitespace-nowrap {
     white-space: nowrap;
   }
-  
+
   .pagination-btn {
-    @apply px-4 py-2 text-sm font-medium border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 transition-colors;
+    @apply border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-50;
   }
 
   .pagination-container nav svg {
-    @apply w-5 h-5;
+    @apply h-5 w-5;
   }
-  
+
   .pagination-container nav div:first-child {
     @apply hidden;
   }

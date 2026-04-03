@@ -18,7 +18,17 @@
 
     <div>
         <h1 class="text-2xl font-bold text-[#1F2937]">Dashboard</h1>
-        <p class="mt-1 text-sm text-slate-500">Resumen general de la campaña 2026</p>
+
+        @if(auth()->user()->role === 'administrador')
+            <p class="mt-1 text-sm text-slate-500">Resumen general de la campaña 2026</p>
+        @else
+            <p class="mt-1 text-sm text-slate-500">
+                Resumen de tu gestión y tus conciliaciones
+                @if(isset($aliado) && $aliado)
+                    — {{ $aliado->nombre }}
+                @endif
+            </p>
+        @endif
     </div>
 
     <div class="space-y-6">
@@ -43,7 +53,9 @@
                     </svg>
                 </div>
                 <p class="text-2xl font-bold text-[#1F2937]">{{ $stats['aliados_activos'] ?? 0 }}</p>
-                <p class="mt-1 text-xs text-slate-500">Aliados activos</p>
+                <p class="mt-1 text-xs text-slate-500">
+                    {{ auth()->user()->role === 'administrador' ? 'Aliados activos' : 'Estado activo' }}
+                </p>
             </div>
 
             <div class="rounded-xl border border-slate-200 bg-white p-5">
@@ -53,7 +65,9 @@
                     </svg>
                 </div>
                 <p class="text-2xl font-bold text-[#1F2937]">{{ $stats['total_aliados'] ?? 0 }}</p>
-                <p class="mt-1 text-xs text-slate-500">Total aliados</p>
+                <p class="mt-1 text-xs text-slate-500">
+                    {{ auth()->user()->role === 'administrador' ? 'Total aliados' : 'Registro asociado' }}
+                </p>
             </div>
 
             <div class="rounded-xl border border-slate-200 bg-white p-5">
@@ -64,13 +78,16 @@
                     </svg>
                 </div>
                 <p class="text-2xl font-bold text-[#1F2937]">{{ $stats['premium'] ?? 0 }}</p>
-                <p class="mt-1 text-xs text-slate-500">En tramo Premium</p>
+                <p class="mt-1 text-xs text-slate-500">
+                    {{ auth()->user()->role === 'administrador' ? 'En tramo Premium' : '¿Estás en Premium?' }}
+                </p>
             </div>
         </div>
 
         <div class="rounded-xl border border-slate-200 bg-white p-6">
-            <h3 class="mb-4 text-sm font-semibold text-[#1F2937]">Distribución por tramo</h3>
-
+            <h3 class="mb-4 text-sm font-semibold text-[#1F2937]">
+                {{ auth()->user()->role === 'administrador' ? 'Distribución por tramo' : 'Tu tramo actual' }}
+            </h3>
             <div class="grid grid-cols-2 gap-3 md:grid-cols-4">
                 @foreach($tramosOrdenados as $tramo => $cantidad)
                     <div class="rounded-lg bg-[#F1F3ED] p-3 text-center">
@@ -88,7 +105,9 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/>
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v4m0 4h.01"/>
             </svg>
-            <h3 class="text-sm font-semibold text-amber-800">Aliados próximos al siguiente nivel</h3>
+            <h3 class="text-sm font-semibold text-amber-800">
+                {{ auth()->user()->role === 'administrador' ? 'Aliados próximos al siguiente nivel' : 'Tu progreso de nivel' }}
+            </h3>
         </div>
 
         <div class="space-y-2">
@@ -99,7 +118,11 @@
                         <p class="text-xs text-slate-500">{{ $aliado->empresa }}</p>
                     </div>
                     <p class="text-xs font-medium text-amber-700">
-                        {{ $aliado->conciliaciones_acumuladas }} conciliaciones — falta 1 para subir
+                        @if(auth()->user()->role === 'administrador')
+                            {{ $aliado->conciliaciones_acumuladas }} conciliaciones — falta 1 para subir
+                        @else
+                            Tienes {{ $aliado->conciliaciones_acumuladas }} conciliaciones — falta 1 para subir de tramo
+                        @endif
                     </p>
                 </div>
             @empty
@@ -111,8 +134,10 @@
     </div>
 
     <div class="rounded-xl border border-slate-200 bg-white p-6">
-        <h3 class="mb-4 text-sm font-semibold text-[#1F2937]">Últimas conciliaciones</h3>
-
+        <h3 class="mb-4 text-sm font-semibold text-[#1F2937]">
+            {{ auth()->user()->role === 'administrador' ? 'Últimas conciliaciones' : 'Tus últimas conciliaciones' }}
+        </h3>
+        
         <div class="space-y-2">
             @forelse($ultimasLista as $item)
                 <div class="flex items-center justify-between border-b border-slate-200 py-2 last:border-0">

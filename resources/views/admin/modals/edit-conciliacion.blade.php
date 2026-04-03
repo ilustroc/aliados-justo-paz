@@ -33,7 +33,7 @@
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label class="mb-1.5 block text-xs font-bold uppercase tracking-wide text-slate-500">Tipo de caso</label>
-                        <select name="tipo_caso" id="edit_tipo_caso" class="jp-select !py-3 border-slate-200">
+                        <select name="tipo_caso" id="edit_tipo_caso" class="jp-select !py-3 border-slate-200" required>
                             <option value="Deuda">Deuda</option>
                             <option value="Incumplimiento">Incumplimiento</option>
                             <option value="Contractual">Contractual</option>
@@ -48,7 +48,7 @@
 
                 <div>
                     <label class="mb-1.5 block text-xs font-bold uppercase tracking-wide text-slate-500">Estado</label>
-                    <select name="estado" id="edit_estado" class="jp-select !py-3 border-slate-200">
+                    <select name="estado" id="edit_estado" class="jp-select !py-3 border-slate-200" required>
                         <option value="En proceso">En proceso</option>
                         <option value="Cerrada">Cerrada</option>
                         <option value="No concretada">No concretada</option>

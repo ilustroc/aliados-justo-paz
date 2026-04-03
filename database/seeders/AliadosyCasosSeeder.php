@@ -4,10 +4,12 @@ namespace Database\Seeders;
 
 use App\Models\Aliado;
 use App\Models\Conciliacion;
+use App\Models\User;
 use App\Services\AliadoNivelService;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
-class DatabaseSeeder extends Seeder
+class AliadosyCasosSeeder extends Seeder
 {
     public function run(): void
     {
@@ -22,8 +24,17 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($aliados as $item) {
+            $user = User::create([
+                'name' => $item['nombre'],
+                'email' => $item['email'],
+                'password' => Hash::make('password123'),
+                'role' => 'usuario',
+                'email_verified_at' => now(),
+            ]);
+
             Aliado::create([
                 ...$item,
+                'user_id' => $user->id,
                 'fecha_registro' => now()->toDateString(),
             ]);
         }

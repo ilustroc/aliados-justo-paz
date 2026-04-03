@@ -11,12 +11,15 @@
             <h1 class="text-3xl font-bold text-[#2B2B2B]">Conciliaciones</h1>
             <p class="text-sm text-slate-500">{{ $conciliaciones->total() }} conciliaciones registradas</p>
         </div>
-        <button type="button" class="jp-btn-primary gap-2" data-modal-open="modalConciliacion">
-            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-            </svg>
-            Nueva conciliación
-        </button>
+
+        @if(auth()->user()->role === 'administrador')
+            <button type="button" class="jp-btn-primary gap-2" data-modal-open="modalConciliacion">
+                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                </svg>
+                Nueva conciliación
+            </button>
+        @endif
     </div>
 
     <div class="jp-table-wrap border-none shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
@@ -34,10 +37,23 @@
             </thead>
             <tbody class="divide-y divide-slate-50">
                 @forelse($conciliaciones as $item)
-                    <tr class="row-conciliacion hover:bg-slate-50/50 transition-colors border-b border-slate-50 last:border-0 cursor-pointer"
-                        data-item="{{ json_encode($item) }}"
+                    <tr
+                        class="row-conciliacion hover:bg-slate-50/50 transition-colors border-b border-slate-50 last:border-0 {{ auth()->user()->role === 'administrador' ? 'cursor-pointer' : '' }}"
+                        data-item='{{ json_encode([
+                            "id" => $item->id,
+                            "codigo" => $item->codigo,
+                            "aliado_id" => $item->aliado_id,
+                            "nombre_caso" => $item->nombre_caso,
+                            "tipo_caso" => $item->tipo_caso,
+                            "fecha_registro" => optional($item->fecha_registro)->format("Y-m-d"),
+                            "tarifa_aplicada" => $item->tarifa_aplicada,
+                            "estado" => $item->estado
+                        ], JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_TAG | JSON_HEX_QUOT) }}'
                         data-aliado="{{ $item->aliado?->nombre }}"
-                        data-action="{{ route('admin.conciliaciones.update', $item) }}">
+                        @if(auth()->user()->role === 'administrador')
+                            data-action="{{ route('admin.conciliaciones.update', $item) }}"
+                        @endif
+                    >
                         <td class="py-3 px-6 font-sm text-[11px] text-slate-900 whitespace-nowrap">{{ $item->codigo }}</td>
                         <td class="py-3 px-6 font-semibold text-slate-900 min-w-[300px]">{{ $item->nombre_caso }}</td>
                         <td class="py-3 px-6 text-slate-900 text-sm whitespace-nowrap">{{ $item->aliado?->nombre }}</td>
@@ -58,15 +74,18 @@
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="7" class="py-12 text-center text-slate-400 italic">No hay registros.</td></tr>
+                    <tr>
+                        <td colspan="7" class="py-12 text-center text-slate-400 italic">No hay registros.</td>
+                    </tr>
                 @endforelse
             </tbody>
         </table>
     </div>
+</div>
 
-    </div>
-
-@include('admin.modals.create-conciliacion')
-@include('admin.modals.edit-conciliacion')
+@if(auth()->user()->role === 'administrador')
+    @include('admin.modals.create-conciliacion')
+    @include('admin.modals.edit-conciliacion')
+@endif
 
 @endsection

@@ -14,21 +14,47 @@ class ConciliacionController extends Controller
     public function index(Request $request)
     {
         $q = trim((string) $request->q);
+        $user = $request->user();
 
-        $conciliaciones = Conciliacion::query()
+        $query = Conciliacion::query()
             ->with('aliado')
-            ->search($q)
+            ->search($q);
+
+        if ($user->role !== 'administrador') {
+            $aliado = $user->aliado;
+
+            if (!$aliado) {
+                $conciliaciones = Conciliacion::query()
+                    ->whereRaw('1 = 0')
+                    ->paginate(10)
+                    ->withQueryString();
+
+                $aliados = collect();
+
+                return view('admin.conciliaciones.index', compact('conciliaciones', 'aliados', 'q'));
+            }
+
+            $query->where('aliado_id', $aliado->id);
+        }
+
+        $conciliaciones = $query
             ->latest('fecha_registro')
             ->paginate(10)
             ->withQueryString();
 
-        $aliados = Aliado::where('estado', 'activo')->orderBy('nombre')->get();
+        $aliados = $user->role === 'administrador'
+            ? Aliado::where('estado', 'activo')->orderBy('nombre')->get()
+            : collect();
 
         return view('admin.conciliaciones.index', compact('conciliaciones', 'aliados', 'q'));
     }
 
     public function store(Request $request, AliadoNivelService $nivelService)
     {
+        if ($request->user()->role !== 'administrador') {
+            abort(403, 'No tienes permiso para registrar conciliaciones.');
+        }
+
         $data = $request->validate([
             'aliado_id' => ['required', 'exists:aliados,id'],
             'nombre_caso' => ['required', 'string', 'max:180'],
@@ -61,6 +87,11 @@ class ConciliacionController extends Controller
 
     public function update(Request $request, Conciliacion $conciliacion)
     {
+
+        if ($request->user()->role !== 'administrador') {
+            abort(403, 'No tienes permiso para editar conciliaciones.');
+        }
+        
         $data = $request->validate([
             'nombre_caso' => ['required', 'string', 'max:180'],
             'tipo_caso' => ['required', 'in:Deuda,Incumplimiento,Contractual,Otro'],
