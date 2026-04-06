@@ -5,9 +5,13 @@ export default defineConfig({
     plugins: [
         laravel({
             input: [
-                'resources/css/app.css', 'resources/js/app.js',
+                // CSS
+                'resources/css/app.css',
+                'resources/css/auth.css',
+                // JS
+                'resources/js/app.js',
                 'resources/js/aliados.js',
-                'resources/js/auth.js',
+                'resources/js/conciliaciones.js',
             ],
             refresh: true,
         }),
