@@ -34,7 +34,7 @@ class AliadoController extends Controller
 
     public function store(Request $request, AliadoNivelService $nivelService)
     {
-        $data = $request->validate([
+        $data = $request->validateWithBag('createAliado', [
             'nombre' => ['required', 'string', 'max:120'],
             'empresa' => ['nullable', 'string', 'max:150'],
             'email' => ['required', 'email', 'max:150', 'unique:aliados,email', 'unique:users,email'],
@@ -73,7 +73,7 @@ class AliadoController extends Controller
     {
         $userId = $aliado->user_id;
 
-        $data = $request->validate([
+        $data = $request->validateWithBag('editAliado', [
             'nombre' => ['required', 'string', 'max:120'],
             'empresa' => ['nullable', 'string', 'max:150'],
             'email' => [

@@ -2,8 +2,6 @@
 
 @section('title', 'Aliados')
 
-@vite(['resources/js/aliados.js'])
-
 @section('content')
 <div class="space-y-6">
     <div class="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
@@ -230,3 +228,7 @@
 @endif
 
 @endsection
+
+@push('scripts')
+    @vite(['resources/js/aliados.js'])
+@endpush

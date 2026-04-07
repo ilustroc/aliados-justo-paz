@@ -4,6 +4,41 @@ document.addEventListener('DOMContentLoaded', function () {
     const editForm = document.getElementById('formEditAliado');
     const selects = document.querySelectorAll('[data-select]');
 
+    const openModal = (modal) => {
+        if (!modal) return;
+        modal.classList.remove('hidden');
+        document.body.classList.add('overflow-hidden');
+    };
+
+    const closeModal = (modal) => {
+        if (!modal) return;
+        modal.classList.add('hidden');
+        document.body.classList.remove('overflow-hidden');
+    };
+
+    document.querySelectorAll('[data-modal-open]').forEach((button) => {
+        button.addEventListener('click', () => {
+            const modalId = button.getAttribute('data-modal-open');
+            const modal = document.getElementById(modalId);
+            openModal(modal);
+        });
+    });
+
+    document.querySelectorAll('[data-modal-close]').forEach((button) => {
+        button.addEventListener('click', () => {
+            const modal = button.closest('[data-modal]');
+            closeModal(modal);
+        });
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('[data-modal]').forEach((modal) => {
+                closeModal(modal);
+            });
+        }
+    });
+
     if (editButtons.length > 0 && editModal && editForm) {
         editButtons.forEach(button => {
             button.addEventListener('click', function () {
@@ -20,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 const role = document.getElementById('edit_role');
                 const password = editForm.querySelector('input[name="password"]');
                 const passwordConfirmation = editForm.querySelector('input[name="password_confirmation"]');
-                
+
                 if (password) password.value = '';
                 if (passwordConfirmation) passwordConfirmation.value = '';
                 if (nombre) nombre.value = aliado.nombre ?? '';
@@ -30,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (telefono) telefono.value = aliado.telefono ?? '';
                 if (role) role.value = aliado.role ?? 'usuario';
 
-                editModal.classList.remove('hidden');
+                openModal(editModal);
             });
         });
     }
@@ -87,4 +122,10 @@ document.addEventListener('DOMContentLoaded', function () {
             icon.classList.remove('rotate-180');
         });
     });
+
+    const modalCreateHasErrors = document.querySelector('#modalAliado .border-red-200');
+    if (modalCreateHasErrors) {
+        const modalAliado = document.getElementById('modalAliado');
+        openModal(modalAliado);
+    }
 });
